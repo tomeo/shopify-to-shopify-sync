@@ -22,14 +22,16 @@ cp config.example.js config.js
 Make sure aws-cli is installed.
 
 ```
-# CDON parameters
-aws ssm put-parameter --name "/{{YOUR INSTANCE NAME}}/cdon/adminurl" --value "https://admin.marketplace.cdon.com" --type "String"
-aws ssm put-parameter --name "/{{YOUR INSTANCE NAME}}/cdon/addressId" --value "{{YOUR CDON RETURN ADDRESSID}}" --type "SecureString"
-aws ssm put-parameter --name "/{{YOUR INSTANCE NAME}}/cdon/apikey" --value "{{YOUR CDON MARKETPLACE API KEY}}" --type "SecureString"
+# Shopify master parameters
+aws ssm put-parameter --name "/{{YOUR INSTANCE NAME}}/shopify/apiurl" --value "{{YOUR SHOPIFY MASTER API URL}}" --type "SecureString"
+aws ssm put-parameter --name "/{{YOUR INSTANCE NAME}}/shopify/apikey" --value "{{YOUR SHOPIFY MASTER API KEY}}" --type "SecureString"
+aws ssm put-parameter --name "/{{YOUR INSTANCE NAME}}/shopify/password" --value "{{YOUR SHOPIFY MASTER PASSWORD KEY}}" --type "SecureString"
 
-# Ongoing parameters
-aws ssm put-parameter --name "/{{YOUR INSTANCE NAME}}/ongoing/apiurl" --value "{{YOUR ONGOING REST API URL}}" --type "String"
-aws ssm put-parameter --name "/{{YOUR INSTANCE NAME}}/ongoing/goodsownerid" --value "{{YOUR GOODS OWNER ID}}" --type "SecureString"
-aws ssm put-parameter --name "/{{YOUR INSTANCE NAME}}/ongoing/username" --value "{{YOUR ONGOING USERNAME}}" --type "SecureString"
-aws ssm put-parameter --name "/{{YOUR INSTANCE NAME}}/ongoing/password" --value "{{YOUR ONGOING PASSWORD}}" --type "SecureString"
+# Shopify slave parameters
+aws ssm put-parameter --name "/{{YOUR INSTANCE NAME}}/shopifyEU/apiurl" --value "{{YOUR SHOPIFY MASTER API URL}}" --type "SecureString"
+aws ssm put-parameter --name "/{{YOUR INSTANCE NAME}}/shopifyEU/apikey" --value "{{YOUR SHOPIFY MASTER API KEY}}" --type "SecureString"
+aws ssm put-parameter --name "/{{YOUR INSTANCE NAME}}/shopifyEU/password" --value "{{YOUR SHOPIFY MASTER PASSWORD KEY}}" --type "SecureString"
+
+# Slack parameters
+aws ssm put-parameter --name "/{{YOUR INSTANCE NAME}}/slack/omswebhook" --value "{{YOUR SLACK WEBHOOK URL}}" --type "SecureString"
 ```
