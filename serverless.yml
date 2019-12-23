@@ -1,0 +1,76 @@
+service: shopify-to-shopify-sync
+
+provider:
+  name: aws
+  runtime: nodejs10.x
+  stage: production
+  region: eu-north-1
+  environment:
+    DESCRIPTION: Sync Shopify EU to Shopify SE
+    ACCOUNT: ongoal
+
+  iamRoleStatements:
+    - Effect: 'Allow'
+      Action:
+        - 'kms:Decrypt'
+      Resource:
+        - {
+            'Fn::Join':
+              [
+                '',
+                [
+                  'arn:aws:kms:${self:provider.region}:',
+                  Ref: 'AWS::AccountId',
+                  ':key/alias/aws/ssm',
+                ],
+              ],
+          }
+    - Effect: 'Allow'
+      Action:
+        - 'ssm:GetParameters'
+      Resource:
+        - {
+            'Fn::Join':
+              [
+                '',
+                [
+                  'arn:aws:ssm:${self:provider.region}:',
+                  Ref: 'AWS::AccountId',
+                  ':parameter/ongoal/shopify/*',
+                ],
+              ],
+          }
+        - {
+            'Fn::Join':
+              [
+                '',
+                [
+                  'arn:aws:ssm:${self:provider.region}:',
+                  Ref: 'AWS::AccountId',
+                  ':parameter/ongoal/shopifyEU/*',
+                ],
+              ],
+          }
+        - {
+            'Fn::Join':
+              [
+                '',
+                [
+                  'arn:aws:ssm:${self:provider.region}:',
+                  Ref: 'AWS::AccountId',
+                  ':parameter/ongoal/slack/*',
+                ],
+              ],
+          }
+
+package:
+  exclude:
+    - config.*
+    - README.md
+    - index.js
+
+functions:
+  ongoal:
+    handler: handler.handler
+    events:
+      - schedule: rate(10 minutes)

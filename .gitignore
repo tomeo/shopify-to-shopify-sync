@@ -1,0 +1,16 @@
+# project specific
+config.js
+
+# package directories
+node_modules
+jspm_packages
+
+# Serverless directories
+.serverless
+
+# artifacts
+.serverless
+
+# user specific
+node_modules/
+.vscode/
