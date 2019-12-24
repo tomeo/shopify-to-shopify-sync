@@ -13,6 +13,7 @@ const SHOPIFY_EU = {
   APIURL: `/${process.env.ACCOUNT}/shopifyEU/apiurl`,
   API_KEY: `/${process.env.ACCOUNT}/shopifyEU/apikey`,
   PASSWORD: `/${process.env.ACCOUNT}/shopifyEU/password`,
+  LOCATION_ID: `/${process.env.ACCOUNT}/shopifyEU/locationId`,
 };
 
 const SLACK = {
@@ -31,6 +32,7 @@ const keyPromise = ssm
       SHOPIFY_EU.APIURL,
       SHOPIFY_EU.API_KEY,
       SHOPIFY_EU.PASSWORD,
+      SHOPIFY_EU.LOCATION_ID,
       SLACK.WEBHOOK,
     ],
     WithDecryption: true,
@@ -44,7 +46,7 @@ exports.handler = async event => {
     url: result.Parameters.find(p => p.Name === SHOPIFY.APIURL).Value,
     apiKey: result.Parameters.find(p => p.Name === SHOPIFY.API_KEY)
       .Value,
-    apiKey: result.Parameters.find(p => p.Name === SHOPIFY.PASSWORD)
+    password: result.Parameters.find(p => p.Name === SHOPIFY.PASSWORD)
       .Value,
   };
 
@@ -53,8 +55,11 @@ exports.handler = async event => {
       .Value,
     apiKey: result.Parameters.find(p => p.Name === SHOPIFY_EU.API_KEY)
       .Value,
-    apiKey: result.Parameters.find(
+    password: result.Parameters.find(
       p => p.Name === SHOPIFY_EU.PASSWORD,
+    ).Value,
+    locationId: result.Parameters.find(
+      p => p.Name === SHOPIFY_EU.LOCATION_ID,
     ).Value,
   };
 

@@ -48,9 +48,9 @@ const run = async (
   logger.log(description);
 
   let slaveOrders = await slave.orders('open');
-  if (!slaveOrders) {
+  if (!slaveOrders.length) {
     logger.log('No pending orders to sync');
-    logger.print();
+    await logger.print();
     return;
   }
 
@@ -71,7 +71,7 @@ const run = async (
     )
   ) {
     logger.log('Everything already synced');
-    logger.print();
+    await logger.print();
     return;
   }
 
@@ -86,7 +86,6 @@ const run = async (
       .map(order => adjustOrderProperties(order, productMap))
       .map(order => {
         logger.log(`Adding ${order.name}`);
-        console.log(order);
         return master.createOrder(order);
       }),
   );
@@ -105,7 +104,7 @@ const run = async (
           `${order.name} has been updated in slave but not in master`,
         );
         // Shopify doesn't support line_item order updates so we must delete and recreate order in master
-        master
+        return master
           .deleteOrder(masterOrders[order.name].id)
           .then(_response => {
             logger.log(`Deleted order ${order.name}`);
@@ -152,7 +151,7 @@ const run = async (
     }),
   );
 
-  logger.print();
+  await logger.print();
 };
 
 module.exports = run;
